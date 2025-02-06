@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateOrdersTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateOrdersLabel_orderid}" for="orderid" />
+                    <h:inputText id="orderid" value="#{ordersController.selected.orderid}" title="#{bundle.CreateOrdersTitle_orderid}" required="true" requiredMessage="#{bundle.CreateOrdersRequiredMessage_orderid}"/>
+                    <h:outputLabel value="#{bundle.CreateOrdersLabel_entree}" for="entree" />
+                    <h:inputText id="entree" value="#{ordersController.selected.entree}" title="#{bundle.CreateOrdersTitle_entree}" required="true" requiredMessage="#{bundle.CreateOrdersRequiredMessage_entree}"/>
+                    <h:outputLabel value="#{bundle.CreateOrdersLabel_side}" for="side" />
+                    <h:inputText id="side" value="#{ordersController.selected.side}" title="#{bundle.CreateOrdersTitle_side}" required="true" requiredMessage="#{bundle.CreateOrdersRequiredMessage_side}"/>
+                    <h:outputLabel value="#{bundle.CreateOrdersLabel_drink}" for="drink" />
+                    <h:inputText id="drink" value="#{ordersController.selected.drink}" title="#{bundle.CreateOrdersTitle_drink}" required="true" requiredMessage="#{bundle.CreateOrdersRequiredMessage_drink}"/>
+                    <h:outputLabel value="#{bundle.CreateOrdersLabel_sauce}" for="sauce" />
+                    <h:inputText id="sauce" value="#{ordersController.selected.sauce}" title="#{bundle.CreateOrdersTitle_sauce}" required="true" requiredMessage="#{bundle.CreateOrdersRequiredMessage_sauce}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{ordersController.create}" value="#{bundle.CreateOrdersSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{ordersController.prepareList}" value="#{bundle.CreateOrdersShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateOrdersIndexLink}"/>
+                
+                <br></br>
+                <label for="Entree">Choose an Entree:</label>
+                <select id="chicken" name="chicken" onchange="updateEntree()">
+                <option value="sandwich">Chicken Sandwich</option>
+                <option value="spicysandwich"> Spicy Chicken Sandwich</option>
+                <option value="chickennuggets">Chicken Nuggets</option>
+                <option value="chickentenders">Chicken Tenders</option>
+                <option value="deluxe">Deluxe Chicken Sandwich</option>
+                </select>
+                <br></br>
+                <label for="Side">Choose an Side:</label>
+
+                <select id="side" name="side" onchange="updateSide()">
+                <option value="fries">Fries</option>
+                <option value="macandcheese">Mac and Cheese</option>
+                <option value="soup">Soup</option>
+                <option value="sidesalad">Side Salad</option>
+                </select>
+                <br></br>
+                <label for="Drink">Choose an Drink:</label>
+
+                <select id="drink" name="drink" onchange="updateDrink()">
+                <option value="coke">Coke</option>
+                <option value="dietcoke">Diet Coke</option>
+                <option value="sprite">Sprite</option>
+                <option value="drpepper">Dr. Pepper</option>
+                <option value="rootbeer">Root Beer</option>
+                <option value="water">Water</option>
+                </select>
+                <br></br>
+                <label for="Sauce">Choose an Sauce:</label>
+
+                <select id="sauce" name="sauce" onchange="updateSauce()">
+                <option value="ketchup">Ketchup</option>
+                <option value="honeymustard">Honey Mustard</option>
+                <option value="hotsauce">Hot Sauce</option>
+                <option value="bbq">BBQ</option>
+                <option value="polynesian">Polynesian</option>
+                <option value="sriracha">Sweet and Spicy Sriracha</option>
+                </select>
+                <p id="resultEntree">Entree Price: 0.0</p>
+                <br></br>
+                <p id="resultSide">Side Price: 0.0</p>
+                <br></br>
+                <p id="resultDrink">Drink Price: 0.0</p>
+                <br></br>
+                <p id="resultSauce">Sauce Price: 0.0</p>
+                <br></br>
+                <label for="totalcost">Total Cost:</label>
+                <label id="priceLabel">0.00</label>
+                <script>
+                    var chickenDoubleValue = 0.00;
+                    var sideDoubleValue = 0.00;
+                    var drinkDoubleValue = 0.00;
+                    var sauceDoubleValue = 0.00;
+                    
+                    function updateEntree() {
+                        var selectedChickenOption = document.getElementById("chicken");
+                        var selectedChickenValue = selectedChickenOption.options[selectedChickenOption.selectedIndex].value;
+                        
+                        
+                        switch (selectedChickenValue) {
+                        case "sandwich":
+                        chickenDoubleValue = 4.0;
+                        break;
+                        case "spicysandwich":
+                        chickenDoubleValue = 4.75;
+                        break;
+                        case "chickennuggets":
+                        chickenDoubleValue = 4.50;
+                        break;
+                        case "chickentenders":
+                        chickenDoubleValue = 5.0;
+                        break;
+                        case "deluxe":
+                        chickenDoubleValue = 6.0;
+                        break;
+                    }
+                    var resultLabel = document.getElementById("resultEntree");
+                    resultLabel.textContent = "Entree Price: " + chickenDoubleValue;
+                    updatePrice();
+                }
+                
+                function updateSide() {
+                        var selectedSideOption = document.getElementById("side");
+                        var selectedSideValue = selectedSideOption.options[selectedSideOption.selectedIndex].value;
+                        
+                        
+                        switch (selectedSideValue) {
+                        case "fries":
+                        sideDoubleValue = 2.50;
+                        break;
+                        case "macandcheese":
+                        sideDoubleValue = 3.00;
+                        break;
+                        case "soup":
+                        sideDoubleValue = 3.25;
+                        break;
+                        case "sidesalad":
+                        sideDoubleValue = 3.50;
+                        break;
+                    }
+                    var resultLabel = document.getElementById("resultSide");
+                    resultLabel.textContent = "Side Price: " + sideDoubleValue;
+                    updatePrice();
+                }
+                
+                function updateDrink() {
+                        var selectedDrinkOption = document.getElementById("drink");
+                        var selectedDrinkValue = selectedDrinkOption.options[selectedDrinkOption.selectedIndex].value;
+                        
+                        
+                        switch (selectedDrinkValue) {
+                        case "coke":
+                        drinkDoubleValue = 2.50;
+                        break;
+                        case "dietcoke":
+                        drinkDoubleValue = 2.75;
+                        break;
+                        case "sprite":
+                        drinkDoubleValue = 3.00;
+                        break;
+                        case "drpepper":
+                        drinkDoubleValue = 3.00;
+                        break;
+                        case "rootbeer":
+                        drinkDoubleValue = 3.00;
+                        break;
+                        case "water":
+                        drinkDoubleValue = 0.00;
+                        break;
+                    }
+                    var resultLabel = document.getElementById("resultDrink");
+                    resultLabel.textContent = "Drink Price: " + drinkDoubleValue;
+                    updatePrice();
+                }
+                
+                function updateSauce() {
+                        var selectedSauceOption = document.getElementById("sauce");
+                        var selectedSauceValue = selectedSauceOption.options[selectedSauceOption.selectedIndex].value;
+                        
+                        
+                        switch (selectedSauceValue) {
+                        case "ketchup":
+                        sauceDoubleValue = 0.25;
+                        break;
+                        case "honeymustard":
+                        sauceDoubleValue = 0.50;
+                        break;
+                        case "hotsauce":
+                        sauceDoubleValue = 0.50;
+                        break;
+                        case "bbq":
+                        sauceDoubleValue = 0.50;
+                        break;
+                        case "polynesian":
+                        sauceDoubleValue = 0.75;
+                        break;
+                        case "sriracha":
+                        sauceDoubleValue = 0.75;
+                        break;
+                    }
+                    var resultLabel = document.getElementById("resultSauce");
+                    resultLabel.textContent = "Sauce Price: " + sauceDoubleValue;
+                    updatePrice();
+                }
+                
+                function updatePrice() {
+                    var totalcost = chickenDoubleValue + sideDoubleValue + drinkDoubleValue + sauceDoubleValue;
+                    var priceLabel = document.getElementById("priceLabel");
+                    priceLabel.textContent = totalcost.toFixed(2); // Ensure two decimal places
+                }
+                </script>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
